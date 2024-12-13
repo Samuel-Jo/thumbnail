@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thumb 01</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2312-1@1.1/EuljiroBlack.woff2">
+    <style>
+        @font-face {
+            font-family: 'EuljiroBlack';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2312-1@1.1/EuljiroBlack.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        body {
+            margin: 0;
+            font-family: 'EuljiroBlack', sans-serif;
+            background-color: #000;
+            color: #fff;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 1280px;
+            height: 720px;
+            margin: 0 auto;
+            overflow: hidden;
+            background-color: #000;
+            padding: 40px 20px 20px;
+        }
+        .text {     
+            position: absolute;
+            font-weight: bold;
+            letter-spacing: -0.094px;
+            z-index: 2;
+            width: auto;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 160px;
+            line-height: 1.1;
+        }
+        .text.top {
+            top: 20px;
+            left: 8px;
+            color: #fff;
+            font-size: 150px;
+            text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+        }
+        .text.mid {
+            top: 220px;
+            left: 0;
+            color: #ed1818;
+            text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+        }
+        .text.bot {
+            top: 420px;
+            left: 0;
+            color: #ed2424;
+            text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+        }
+        .text.sub {
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 55px;
+            color: #5ef894;
+            position: absolute;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+         
+        }
+        .image {
+            position: absolute;
+            right: 10px; 
+            bottom: 230px;
+            width: 300px;
+            height: auto;
+            z-index: 1;
+        }
+        .image img {
+            width: 100%;
+            height: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .text.top, .text.mid, .text.bot {
+                font-size: 100px;
+            }
+            .text.sub {
+                font-size: 38px;
+            }
+        }
+        
+        /* 폼을 아래로 띄우기 위한 스타일 추가 */
+        #uploadForm {
+            margin-top: 100px; /* 내용물에서 100px 아래로 띄움 */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="text top" id="topText">50대를 빛내는 패션</div>
+        <div class="text mid" id="midText">자신감 넘치는</div>
+        <div class="text bot" id="botText">스타일 연출법!</div>
+        <div class="text sub" id="subText">중년의 품격과 세련미를 완성하는 필수 패션 팁!</div>
+        <div class="image" id="imageContainer">
+            <img src="노인지혜.png" alt="Image" id="uploadedImage">
+        </div>
+    </div>
+
+    <!-- 텍스트와 이미지 업로드를 위한 폼 추가 -->
+    <form id="uploadForm">
+        <input type="text" placeholder="Top Text" id="topInput">
+        <input type="text" placeholder="Mid Text" id="midInput">
+        <input type="text" placeholder="Bot Text" id="botInput">
+        <input type="text" placeholder="Sub Text" id="subInput">
+        <input type="file" id="imageInput" accept="image/*">
+        <button type="submit">업로드</button>
+        <button id="saveButton">저장하기</button>
+    </form>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <script>
+        function adjustTextSize(element) {
+            const container = document.querySelector('.container');
+            const containerWidth = container.offsetWidth - 40; // 패딩 고려
+            
+            // 각 요소별 기준 텍스트 길이 설정
+            const baseTexts = {
+                midText: "자신감 넘치는",
+                botText: "스타일 연출법!",
+                subText: "중년의 품격과 세련미를 완성하는 필수 패션 팁!"
+            };
+
+            // 초기 스타일 설정
+            if (element.classList.contains('sub')) {
+                element.style.fontSize = '55px';
+                element.style.letterSpacing = '0px';
+            } else if (element.classList.contains('mid')) {
+                element.style.fontSize = '160px';
+                element.style.letterSpacing = '-1px'; // 기본 자간 좁게
+            } else if (element.classList.contains('bot')) {
+                element.style.fontSize = '160px';
+                element.style.letterSpacing = '-1px'; // 기본 자간 좁게
+            } else {
+                element.style.fontSize = '160px';
+            }
+
+            element.style.transform = 'scaleX(1)';
+            
+            // 현재 텍스트 길이와 기준 텍스트 길이 비교
+            const currentText = element.innerText;
+            const baseText = baseTexts[element.id] || "";
+            const lengthRatio = currentText.length / (baseText.length || 1);
+
+            // 텍스트가 컨테이너를 벗어나는 경우 조정
+            while (element.offsetWidth > containerWidth && parseInt(element.style.fontSize) > 30) {
+                if (element.classList.contains('sub')) {
+                    // sub 텍스트는 자간을 더 좁게 조정 가능
+                    if (parseInt(element.style.letterSpacing) > -3) {
+                        element.style.letterSpacing = (parseInt(element.style.letterSpacing) - 0.5) + 'px';
+                    } else {
+                        element.style.fontSize = (parseInt(element.style.fontSize) - 2) + 'px';
+                    }
+                } else {
+                    // mid와 bot 텍스트는 장평을 더 적극적으로 활용
+                    if (parseInt(element.style.letterSpacing) > -4) {
+                        element.style.letterSpacing = (parseInt(element.style.letterSpacing) - 0.5) + 'px';
+                    } else if (!element.style.transform || element.style.transform === 'scaleX(1)') {
+                        element.style.transform = 'scaleX(0.95)';
+                    } else if (element.style.transform === 'scaleX(0.95)') {
+                        element.style.transform = 'scaleX(0.9)';
+                    } else if (element.style.transform === 'scaleX(0.9)') {
+                        element.style.transform = 'scaleX(0.85)';
+                    } else {
+                        // 장평 조정으로도 부족하면 폰트 크기 조정
+                        element.style.fontSize = (parseInt(element.style.fontSize) - 3) + 'px';
+                        // 폰트 크기가 줄어들 때 장평과 자간 초기화
+                        element.style.letterSpacing = '-1px';
+                        element.style.transform = 'scaleX(1)';
+                    }
+                }
+            }
+        }
+
+        // DOM이 로드된 후 실행
+        document.addEventListener('DOMContentLoaded', function() {
+            const textElements = document.querySelectorAll('.text.top, .text.mid, .text.bot, .text.sub');
+            textElements.forEach(adjustTextSize);
+
+            document.getElementById('uploadForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                document.getElementById('topText').innerText = document.getElementById('topInput').value;
+                document.getElementById('midText').innerText = document.getElementById('midInput').value;
+                document.getElementById('botText').innerText = document.getElementById('botInput').value;
+                document.getElementById('subText').innerText = document.getElementById('subInput').value;
+
+                textElements.forEach(adjustTextSize);
+
+                const file = document.getElementById('imageInput').files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('uploadedImage').src = e.target.result;
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            document.getElementById('saveButton').addEventListener('click', function() {
+                html2canvas(document.querySelector('.container'), { 
+                    useCORS: true,
+                    allowTaint: true,
+                    scale: 3,
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = 'result.png';
+                    link.href = canvas.toDataURL();
+                    link.click();
+                }).catch(function(error) {
+                    console.error('Error capturing the canvas:', error);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
