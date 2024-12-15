@@ -3,98 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thumb 01</title>
-    <style>
-        @font-face {
-            font-family: 'Euljiro';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-01@1.0/EuljiroBold.woff2') format('woff2');
-            font-weight: bold;
-            font-style: normal;
+    <title>YouTube Thumbnail Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Euljiro&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+    <main class="max-w-7xl mx-auto bg-white rounded-lg shadow-lg p-6">
+        <h1 class="text-3xl font-bold text-center mb-8">YouTube Thumbnail Generator</h1>
+
+        <div class="flex flex-col gap-8">
+            <!-- Preview Section -->
+            <div class="w-full">
+                <div class="bg-gray-900 p-4 rounded-lg">
+                    <div class="relative w-[1280px] h-[720px] bg-black rounded-lg overflow-hidden" id="thumbnailPreview">
+                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe" alt="Thumbnail Preview" class="absolute inset-0 w-full h-full object-cover" id="previewImage">
+                        <div class="absolute inset-0 flex items-center justify-center p-4">
+                            <div class="text-left w-full tracking-tight">
+                                <h2 class="text-white font-black font-[Euljiro] text-shadow whitespace-nowrap overflow-hidden tracking-tighter pl-10 text-left max-w-[1200px] mx-auto" style="font-size: 150px; line-height: 1.2;" id="previewTitleTop">Top Title</h2>
+                                <h2 class="text-white font-black font-[Euljiro] text-shadow whitespace-nowrap overflow-hidden tracking-tighter pl-10 text-left" style="font-size: 150px; line-height: 1.2; margin-left: 10px;" id="previewTitleMid">Mid Title</h2>
+                                <h2 class="text-white font-black font-[Euljiro] text-shadow whitespace-nowrap overflow-hidden tracking-tighter pl-10 text-left" style="font-size: 150px; line-height: 1.2; margin-left: 10px;" id="previewTitleBot">Bottom Title</h2>
+                                <h3 class="text-red-500 font-black font-[Euljiro] text-shadow whitespace-nowrap overflow-hidden tracking-tighter text-center" style="font-size: 55px; line-height: 1.2;" id="previewSubTitle">Sub Title</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configuration Panel -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <!-- Left Menu Section -->
+                <div class="md:col-span-6 bg-gray-50 p-6 rounded-lg space-y-4">
+                    <h3 class="font-medium text-gray-900 mb-4">Left Menu</h3>
+                    <!-- Top Title Input -->
+                    <div class="flex gap-2">
+                        <div class="flex-1">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Top Title Text</label>
+                            <input type="text" id="topTitleInput" class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Enter top title text">
+                        </div>
+                        <div class="w-32 flex gap-2">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Font Size</label>
+                                <input type="number" id="topTitleSize" class="w-20 px-2 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500" value="150" min="10" max="300" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Mid Title Input -->
+                    <div class="flex gap-2">
+                        <div class="flex-1">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Mid Title Text</label>
+                            <input type="text" id="midTitleInput" class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Enter mid title text">
+                        </div>
+                        <div class="w-32 flex gap-2">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Font Size</label>
+                                <input type="number" id="midTitleSize" class="w-20 px-2 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500" value="150" min="10" max="300" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Bottom Title Input -->
+                    <div class="flex gap-2">
+                        <div class="flex-1">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Bottom Title Text</label>
+                            <input type="text" id="bottomTitleInput" class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Enter bottom title text">
+                        </div>
+                        <div class="w-32 flex gap-2">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Font Size</label>
+                                <input type="number" id="bottomTitleSize" class="w-20 px-2 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500" value="150" min="10" max="300" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Sub Title Input -->
+                    <div class="flex gap-2">
+                        <div class="flex-1">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Sub Title Text</label>
+                            <input type="text" id="subTitleInput" class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Enter sub title text">
+                        </div>
+                        <div class="w-32 flex gap-2">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Font Size</label>
+                                <input type="number" id="subTitleSize" class="w-20 px-2 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500" value="55" min="10" max="300">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Middle Section -->
+                <div class="md:col-span-3 bg-gray-50 p-6 rounded-lg space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Top Title Color</label>
+                        <input type="color" id="topSubColor" class="w-full h-10 px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500" value="#FFFFFF">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Mid & Bottom Color</label>
+                        <input type="color" id="midBottomColor" class="w-full h-10 px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500" value="#FFFFFF">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Sub Title Color</label>
+                        <input type="color" id="subTitleColor" class="w-full h-10 px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500" value="#FF0000">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Image Selection</label>
+                        <input type="file" accept="image/*" onchange="handleImageSelect(event)" class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                </div>
+
+                <!-- Right Menu Section -->
+                <div class="md:col-span-3 bg-gray-50 p-6 rounded-lg space-y-4">
+                    <div class="space-y-4">
+                        <button onclick="applyChanges()" class="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 transition duration-200">적용하기</button>
+                        <button onclick="downloadThumbnail()" class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition duration-200">다운로드</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+        function handleImageSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById("previewImage").src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
         }
 
-        body {
-            margin: 0;
-            font-family: 'Euljiro', sans-serif;
-            background-color: #000;
-            color: #fff;
+        function applyChanges() {
+            const elements = [
+                { 
+                    element: document.getElementById("previewTitleTop"),
+                    text: document.getElementById("topTitleInput").value,
+                    size: parseInt(document.getElementById("topTitleSize").value) || 150,
+                    color: document.getElementById("topSubColor").value
+                },
+                { 
+                    element: document.getElementById("previewTitleMid"),
+                    text: document.getElementById("midTitleInput").value,
+                    size: parseInt(document.getElementById("midTitleSize").value) || 150,
+                    color: document.getElementById("midBottomColor").value
+                },
+                { 
+                    element: document.getElementById("previewTitleBot"),
+                    text: document.getElementById("bottomTitleInput").value,
+                    size: parseInt(document.getElementById("bottomTitleSize").value) || 150,
+                    color: document.getElementById("midBottomColor").value
+                },
+                { 
+                    element: document.getElementById("previewSubTitle"),
+                    text: document.getElementById("subTitleInput").value,
+                    size: parseInt(document.getElementById("subTitleSize").value) || 55,
+                    color: document.getElementById("subTitleColor").value
+                }
+            ];
+
+            elements.forEach(({ element, text, size, color }) => {
+                if (element) {
+                    element.style.fontFamily = "Euljiro";
+                    if (text !== "") element.textContent = text;
+                    element.style.fontSize = `${size}px`;
+                    element.style.color = color;
+                    adjustTextSpacing(element);
+                }
+            });
         }
-        .container {
-            position: relative;
-            width: 100%;
-            max-width: 1280px;
-            height: 720px;
-            margin: 0 auto;
-            overflow: hidden;
-        }
-        .text {     
-            position: absolute;
-            font-weight: bold;
-            letter-spacing: -0.4px;
-        }
-        .text.top {
-            top: 0;
-            left: 8px;
-            font-size: 180px;
-            color: #fff;
-            text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-        }
-        .text.mid {
-            top: 204px;
-            left: 0;
-            font-size: 180px;
-            color: #ed1818;
-            text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-        }
-        .text.bot {
-            top: 399px;
-            left: 0;
-            font-size: 180px;
-            color: #ed2424;
-            text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-        }
-        .text.sub {
-            bottom: 5px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 76.2px;
-            color: #5ef894;
-            position: absolute;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .image {
-            position: absolute;
-            right: 100px; /* 좌측으로 50px 이동 */
-            bottom: 270px; /* 아래로 50px 이동 */
-            width: 300px;
-            height: auto;
-        }
-        .image img {
-            width: 100%;
-            height: auto;
-        }
-        
-        @media (max-width: 768px) {
-            .text.top, .text.mid, .text.bot {
-                font-size: 100px;
-            }
-            .text.sub {
-                font-size: 38px;
+
+        function adjustTextSpacing(element) {
+            let spacing = 0;
+            let fontSize = parseInt(element.style.fontSize);
+            const maxWidth = element.classList.contains("max-w-[1200px]") ? 1200 : 880;
+            
+            while (element.scrollWidth > maxWidth && spacing > -10) {
+                spacing -= 0.5;
+                element.style.letterSpacing = spacing + "px";
+                
+                if (spacing <= -10 && fontSize > 50) {
+                    fontSize -= 5;
+                    element.style.fontSize = fontSize + "px";
+                    spacing = 0;
+                    element.style.letterSpacing = spacing + "px";
+                }
             }
         }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="text top">60대가 모르면</div>
-        <div class="text mid">후회하는</div>
-        <div class="text bot">5가지 비밀!</div>
-        <div class="text sub">지금 확인하지 않으면 늦습니다!</div>
-        <!-- 중복된 이미지 요소 제거 -->
-        <div class="image">
-            <img src="노인지혜.png" alt="Image">
-        </div>
-    </div>
+
+        async function downloadThumbnail() {
+            try {
+                const preview = document.getElementById("thumbnailPreview");
+                const canvas = await html2canvas(preview, {
+                    useCORS: true,
+                    scale: 1,
+                    logging: true,
+                    allowTaint: true,
+                    backgroundColor: null
+                });
+                
+                const link = document.createElement("a");
+                link.download = "thumbnail.png";
+                link.href = canvas.toDataURL("image/png");
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } catch (error) {
+                console.error("Error downloading thumbnail:", error);
+            }
+        }
+
+        window.onload = function() {
+            document.getElementById("previewTitleTop").style.fontSize = "150px";
+            document.getElementById("previewTitleMid").style.fontSize = "150px";
+            document.getElementById("previewTitleBot").style.fontSize = "150px";
+            document.getElementById("previewSubTitle").style.fontSize = "55px";
+            
+            document.getElementById("previewTitleTop").style.fontFamily = "Euljiro";
+            document.getElementById("previewTitleMid").style.fontFamily = "Euljiro";
+            document.getElementById("previewTitleBot").style.fontFamily = "Euljiro";
+            document.getElementById("previewSubTitle").style.fontFamily = "Euljiro";
+        }
+    </script>
 </body>
 </html>
